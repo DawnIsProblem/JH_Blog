@@ -1,7 +1,7 @@
 package com.leejeonghoon.blogproject.domain.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leejeonghoon.blogproject.config.security.SecurityConfig;
+import com.leejeonghoon.blogproject.common.config.SecurityConfig;
 import com.leejeonghoon.blogproject.domain.user.controller.UserController;
 import com.leejeonghoon.blogproject.domain.user.dto.request.UserLoginRequestDto;
 import com.leejeonghoon.blogproject.domain.user.dto.request.UserRegisterRequestDto;
@@ -21,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -63,7 +64,7 @@ public class UserControllerTest {
                 .nickname("testNickname")
                 .build();
 
-        Mockito.when(userService.register(any(UserRegisterRequestDto.class))).thenReturn(responseDto);
+        Mockito.when(userService.register(any(UserRegisterRequestDto.class), any(MultipartFile.class))).thenReturn(responseDto);
 
         mockMvc.perform(multipart("/api/users/register")
                         .file(new MockMultipartFile(
@@ -135,7 +136,7 @@ public class UserControllerTest {
                         .param("nickname", "updatedNickname")
                         .with(csrf())
                         .with(request -> {
-                            request.setMethod("PATCH"); // "PARCH"를 "PATCH"로 수정
+                            request.setMethod("PATCH");
                             return request;
                         }))
                 .andExpect(status().isOk())

@@ -28,7 +28,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String nickname;
 
     @Column(nullable = false, unique = true)
@@ -42,4 +42,9 @@ public class UserEntity {
 
     @UpdateTimestamp
     private LocalDateTime updateDate;
+    
+    @Enumerated(EnumType.STRING) // Enum 타입 저장
+    private Role role;
+
+
 }

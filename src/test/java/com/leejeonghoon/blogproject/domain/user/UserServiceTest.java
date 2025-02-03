@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,10 +44,18 @@ public class UserServiceTest {
                 .nickname("테스트닉네임")
                 .build();
 
+        MockMultipartFile profileIng = new MockMultipartFile(
+                "profileIng",
+                "profile.png",
+                "image/png",
+                "test data".getBytes()
+        );
+
         when(userRepository.findByLoginId(anyString())).thenReturn(Optional.empty());
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(anyString())).thenReturn("암호화된비밀번호");
 
-        UserResponseDto userResponseDto = userService.register(userRegisterRequestDto);
+        UserResponseDto userResponseDto = userService.register(userRegisterRequestDto, profileIng);
 
         assertEquals("테스트사용자", userResponseDto.getLoginId());
         assertEquals("테스트이메일@gmail.com", userResponseDto.getEmail());
