@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: Blog-Project
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/jhdb
+    username: root
+#    password: dlwjdgns0322
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  profiles:
+    active: test
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+jwt:
+  secret: cJkrc+It1lczSEeE9vrSROLZqx2jf1LhHOAfELCohxo=
+  expiration: 86400000
+  cookie-name: ACCESS_TOKEN
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+file:
+  upload:
+    dir: ${user.dir}/uploads/profile-images/
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+      springdoc: DEBUG
+
